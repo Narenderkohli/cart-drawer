@@ -1,0 +1,54 @@
+
+=======================================
+html
+=============================================
+<div id="mySidenav" class="sidenav" style="display:none">
+  <a href="#" class="closebtn">X</a>
+    <div class="apppend_data_cart">
+    </div>
+   <div class="apppend_data_footer_cart">
+    </div>
+</div>
+==========================================================
+js
+===========================================================
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+$(document).on("click","button#ButtonAddToCart",function(){
+   $("#mySidenav").show();
+   var get_id_this = $(this).attr('value');
+ 
+     $.ajax({
+      type: 'POST',
+      url: '/cart/add.js',
+       data: {
+        quantity:1,
+        id: get_id_this
+       },
+        dataType: 'json',
+         success: function() {
+        $.ajax({
+        type: 'GET',
+        url: '/cart',
+        dataType: 'html',
+          success: function(cart) {
+          var get_html = $(cart).find(".get_html_cart").html(); 
+             var get_htmls = $(cart).find(".footer_drawer").html();
+                // console.log(get_htmls); 
+            //================ Append html ==============//
+            $(".apppend_data_cart").html(get_html)  
+                $(".apppend_data_footer_cart").html(get_htmls)  
+          }     
+         });
+         }
+         });
+      });
+  $(".closebtn").click(function(){
+  $("#mySidenav").hide();
+});
+    
+});
+
+
+</script>
